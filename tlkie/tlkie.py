@@ -8,6 +8,7 @@ from pynwn.file.tls import TLS
 parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', action='version', version='0.1')
 parser.add_argument('-o', '--output', help='Output file.', default='output.tls')
+parser.add_argument('-l', '--language', help='TLK language.', default=0)
 parser.add_argument('files', help='TLK or TLS file(s).', nargs='+')
 
 args = parser.parse_args()
@@ -27,7 +28,7 @@ def save_by_ext(main, ext):
                 main.write(f)
         elif isinstance(main, TLS):
             with open(args.output, 'wb') as f:
-                main.write_tlk(f)
+                main.write_tlk(f, args.language)
     elif '.tls' == ext:
         if isinstance(main, Tlk):
             with open(args.output, 'w', encoding=sys.stdout.encoding) as f:
