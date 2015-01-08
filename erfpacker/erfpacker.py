@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', action='version', version='0.1')
 parser.add_argument('-o', '--output', help='Output file.', default='output.hak')
 parser.add_argument('-t', '--type', help='Output type.', default='HAK')
-parser.add_argument('files', help='Add files to add.', nargs='+')
+parser.add_argument('input', help='Add files/directories to add.', nargs='+')
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -15,10 +15,20 @@ if __name__ == "__main__":
     print(outtype, outtype in Erf.TYPES)
     out = Erf(outtype)
     for f in args.files:
-        try:
-            out.add_file(f)
-        except ValueError as e:
-            print("Skipping: " + str(e))
+        if os.path.isfile(f):
+            try:
+                out.add_file(f)
+            except ValueError as e:
+                print("Skipping: " + str(e))
+        else:
+            for g in os.listdir(f):
+                if not os.path.isfile(g): continue
+                print(g)
+                try:
+                    out.add_file(g)
+                except ValueError as e:
+                    print("Skippng: " + str(e))
+
 
     with open(args.output, 'wb') as f:
         out.write_to(f)
