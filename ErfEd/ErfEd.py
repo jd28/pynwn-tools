@@ -30,7 +30,7 @@ class ErfReadThread(QtCore.QThread):
         try:
             erf = Erf.from_file(self.file_name)
         except:
-            erf = Erf('hak')
+            erf = Erf('HAK')
         self.erfLoaded.emit(erf)
 
     def begin(self):
@@ -355,14 +355,17 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             self.setWindowTitle("ErfEd - %s" % os.path.basename(self.fileName))
 
+    def saveAndReload(self, fileName):
+        self.erf.write_to(self.fileName)
+        self.setModified(False)
+        self.open(self.fileName)
+
     def save(self):
         if self.erf is None: return
         if not self.fileName:
             self.saveAs()
         else:
-            with open(self.fileName, 'wb') as f2:
-                self.erf.write_to(f2)
-            self.setModified(False)
+            self.saveAndReload(self.fileName)
 
     def saveAs(self):
         fileName, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Open Erf File",
@@ -373,12 +376,7 @@ class MainWindow(QtWidgets.QMainWindow):
             ext = os.path.splitext(fileName)[1][1:].upper()
             if self.erf.ftype != ext and ext in Erf.TYPES:
                 self.erf.ftype = ext
-
-            with open(fileName, 'wb') as f2:
-                self.erf.write_to(f2)
-
-            self.setModified(False)
-            self.open(fileName)
+            saveAndReload(fileName)
 
     def readSettings(self):
         size = self.settings.beginReadArray('Recent Files')
