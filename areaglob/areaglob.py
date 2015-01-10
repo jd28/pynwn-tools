@@ -8,13 +8,14 @@ import collections
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', action='version', version='0.1')
-parser.add_argument('-a', '--areag', help='areag.ini directory.', default='areag')
 parser.add_argument('-e', '--enter', help='OnEnter Script.', default='')
 parser.add_argument('-x', '--exit', help='OnExit Script.', default='')
 parser.add_argument('-b', '--heartbeat', help='OnHeartbeat Script.', default='')
 parser.add_argument('-u', '--user', help='OnUserDefined Script.', default='')
-parser.add_argument('file', help='Base areag.ini file.')
+parser.add_argument('base', help='Base areag.ini file.')
 parser.add_argument('output', help='Output ini file.')
+parser.add_argument('input', help='Input ini files.', nargs='+')
+
 args = parser.parse_args()
 
 dictionary = collections.OrderedDict()
@@ -35,12 +36,10 @@ def add_to_main_dict(fname):
                 dictionary[section][option] = config.get(section, option)
 
 if __name__ == "__main__":
-    add_to_main_dict(args.file)
+    add_to_main_dict(args.base)
 
-    for root, dirnames, filenames in os.walk(args.areag):
-        for filename in fnmatch.filter(filenames, '*.ini'):
-            base = os.path.basename(filename)
-            add_to_main_dict(os.path.join(root, filename))
+    for fn in args.input:
+        add_to_main_dict(fn)
 
     result = configparser.ConfigParser()
     result.optionxform = str
@@ -68,7 +67,6 @@ if __name__ == "__main__":
             v['OnHeartbeat'] = args.heartbeat
 
     for k, v in dictionary.items():
-        #result.add_section(k.upper())
         result.add_section(k)
         for k2, v2 in v.items():
             result.set(k, k2, v2)
