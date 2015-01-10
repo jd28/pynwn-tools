@@ -1,32 +1,39 @@
-# setup.py for neverrun
-
 from distutils.core import setup
 import os
-
-print(os.name)
 
 samples = [os.path.join('samples', i) for i in os.listdir('samples')]
 twodxs = [os.path.join('2dx', i) for i in os.listdir('2dx')]
 
-data_files = [('samples', samples),
-              ('2dx', twodxs),
+data_files = [('2dilate/samples', samples),
+              ('2dilate/2dx', twodxs),
               ('', ['2dasource.zip'])]
+
+from setuptools import setup, find_packages
+import os
+
+stuff = {
+    'name': '2dilate',
+    'version': "0.2",
+    'description': "A slightly different kind of 2da merger",
+    'packages': find_packages(),
+    'author': 'jmd',
+    'data_files': data_files,
+}
 
 if os.name == 'nt':
     import py2exe
-    setup(name="2dilate",
-          version="0.2",
-          description="A different kind of 2da merger.",
-          author="jmd",
-          data_files = data_files,
-          console = [ {
-              "script": "2dilate.py"}])
+    stuff['console'] = [{
+        "script": "2dilate.py",
+        "icon_resources" : [(1, os.path.join('../external/icons',"nwn1-toolset.ico"))]
+    }]
+    stuff['zipfile'] = None
+    stuff['options']={"py2exe":{
+             'compressed': 2,
+             'optimize': 2,
+             'bundle_files': 1}}
 
+
+    setup(**stuff)
 elif os.name == 'posix':
-    setup(name="2dilate",
-          version="0.2",
-          description="A different kind of 2da merger.",
-          author="jmd",
-          packages = ['src'],
-          data_files = data_files,
-          scripts = ['2dilate.py'])
+    stuff['scripts'] = ['2dilate.py']
+    setup(**stuff)
