@@ -73,8 +73,7 @@ def pack(fout, fin, excludes):
         else:
             add_file(out, f)
 
-    with open(args.output, 'wb') as f:
-        out.write_to(f)
+    out.write_to(args.output)
 
 def dupes(erfs):
     shas = {}
