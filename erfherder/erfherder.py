@@ -20,9 +20,9 @@ parser_pack.add_argument('input', help='Source ERF.')
 parser_pack.add_argument('output', help='Output directory.')
 
 # dupes
-parser_pack = subparsers.add_parser('dupes', description='Find duplicate files by sha1')
+#parser_pack = subparsers.add_parser('dupes', description='Find duplicate files by sha1')
 #parser_pack.add_argument('-p', '--pattern', help='Unix wildcard pattern.')
-parser_pack.add_argument('input', help='Input ERF files.', nargs='+')
+#parser_pack.add_argument('input', help='Input ERF files.', nargs='+')
 
 def dump(source, dest, pat):
     if not os.path.isdir(dest):
@@ -43,8 +43,8 @@ def dump(source, dest, pat):
 def pack(fout, fin, excludes):
     def check_excluded(path):
         ignore = False
-            if excludes:
-                for ex in excludes:
+        if excludes:
+            for ex in excludes:
                 if fnmatch.fnmatch(path, ex):
                     print("Ignoring: " + path)
                     ignore = True
