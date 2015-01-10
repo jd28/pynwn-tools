@@ -66,4 +66,4 @@ optional arguments:
 
 #### Change Log
 * v0.3:
-  * Add Yes/No/All prompt before mearging.
+  * Add Yes/No/All prompt before merging.
