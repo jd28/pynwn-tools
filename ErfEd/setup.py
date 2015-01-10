@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 import os
 
 platforms = [os.path.join('../external/platforms', i) for i in os.listdir('../external/platforms')]
-data_files = [('', ["ErfEd.ini"])]
+data_files = []
 
 if os.name == 'nt':
     import py2exe

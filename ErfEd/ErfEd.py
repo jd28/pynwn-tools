@@ -123,7 +123,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
 
-        self.settings = QtCore.QSettings('ErfEd.ini', QtCore.QSettings.IniFormat)
+        self.settings = QtCore.QSettings()
         self.recentFiles = []
         self.readSettings()
         self.current_row = 0
@@ -420,6 +420,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
+    QtCore.QCoreApplication.setOrganizationName("jmd");
+    QtCore.QCoreApplication.setOrganizationDomain("jmdean.me");
+    QtCore.QCoreApplication.setApplicationName("ErfEd");
+
     mainWin = MainWindow()
     mainWin.restoreWindow()
     if len(sys.argv) > 1:
