@@ -41,13 +41,19 @@ def dump(source, dest, pat):
         print("Error: Unable to open %s: %s." % str(e), file=sys.stderr)
 
 def pack(fout, fin, excludes):
-    def add_file(erf, file):
-        if os.path.isfile(file):
+    def check_excluded(path):
+        ignore = False
             if excludes:
                 for ex in excludes:
-                    if fnmatch.fnmatch(file, ex):
-                        print("Ignoring: " + file)
-                        return
+                if fnmatch.fnmatch(path, ex):
+                    print("Ignoring: " + path)
+                    ignore = True
+
+        return ignore
+
+    def add_file(erf, file):
+        if os.path.isfile(file):
+            if check_excluded(file): return
             try:
                 out.add_file(file)
             except ValueError as e:
@@ -68,6 +74,8 @@ def pack(fout, fin, excludes):
     for f in fin:
         if os.path.isdir(f):
             for root, _, files in os.walk(f):
+                if check_excluded(root): continue
+
                 for file in files:
                     add_file(out, os.path.join(root, file))
         else:
