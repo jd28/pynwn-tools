@@ -4,8 +4,8 @@ import os
 samples = [os.path.join('samples', i) for i in os.listdir('samples')]
 twodxs = [os.path.join('2dx', i) for i in os.listdir('2dx')]
 
-data_files = [('2dilate/samples', samples),
-              ('2dilate/2dx', twodxs),
+data_files = [('examples/2dilate/samples', samples),
+              ('examples/2dilate/2dx', twodxs),
               ('', ['2dasource.zip'])]
 
 from setuptools import setup, find_packages

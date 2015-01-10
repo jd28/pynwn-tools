@@ -3,7 +3,7 @@ import os
 
 areag = [os.path.join('areag', i) for i in os.listdir('areag')]
 
-data_files = [('areag', areag)]
+data_files = [('examples/areag', areag)]
 
 stuff = {
     'name': 'areaglob',
