@@ -8,13 +8,13 @@ import collections
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', action='version', version='0.1')
-parser.add_argument('-o', '--output', help='Output file.', default='areag.ini')
 parser.add_argument('-a', '--areag', help='areag.ini directory.', default='areag')
 parser.add_argument('-e', '--enter', help='OnEnter Script.', default='')
 parser.add_argument('-x', '--exit', help='OnExit Script.', default='')
 parser.add_argument('-b', '--heartbeat', help='OnHeartbeat Script.', default='')
 parser.add_argument('-u', '--user', help='OnUserDefined Script.', default='')
 parser.add_argument('file', help='Base areag.ini file.')
+parser.add_argument('output', help='Output ini file.')
 args = parser.parse_args()
 
 dictionary = collections.OrderedDict()
