@@ -2,7 +2,7 @@
 
 #### Description:
 2dilate is a new (and slightly different) 2da merger.  It adds a new
-file type: 2dx (specification below).  To simplify and easy the 2da
+file type: 2dx (specification below).  To simplify and ease the 2da
 merging process.
 
 #### Goals:
@@ -17,9 +17,6 @@ merging process.
 #### Dependencies:
 * [Python 3](https://www.python.org/)
 * [PyNWN](https://github.com/jd28/pynwn)
-
-#### Windows Executable version:
-* http://neverwintervault.org/project/nwn1/other/tool/2dilate
 
 #### 2dx file format.
 * Header: **2DX V2.0**
