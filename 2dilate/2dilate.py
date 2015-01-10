@@ -16,8 +16,8 @@ import io
 parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', action='version', version='0.1')
 parser.add_argument('-o', '--output', help='Output directory.', default='merged')
-parser.add_argument('-x', '--twodx', help='2dx directory.', default='2dx')
 parser.add_argument('--non-default', help='Ignore non-default 2da row entries.', action='store_true')
+parser.add_argument('twodx', help='Directory containing 2dx files.')
 parser.add_argument('files', help='2da file(s).', nargs='+')
 
 args = parser.parse_args()
@@ -34,6 +34,29 @@ def get_2dxs(base):
             matches.append(os.path.join(root, filename))
 
     return matches
+
+ALL = False
+
+def prompt(text):
+    global ALL
+    if ALL: return True
+
+    while True:
+        # raw_input returns the empty string for "enter"
+        yes = set(['yes','y', 'ye', ''])
+        no = set(['no','n'])
+        all = set(['all','al','a'])
+
+        choice = input('Merge %s? [Yes/No/All] ' % text).lower()
+        if choice in no:
+            return False
+        elif choice in yes:
+            return True
+        elif choice in all:
+            ALL = True
+            return True
+        else:
+            print("Please respond with 'yes' or 'no' or 'all'")
 
 if __name__ == "__main__":
     safe_mkdir(args.output)
@@ -58,13 +81,14 @@ if __name__ == "__main__":
         for twodx in twodxs:
             x = TwoDX(twodx)
             if x.description:
-                print("Applying: %s" % x.description)
+                merge = prompt("%s (%s)" % (x.description, twodx))
             else:
-                print("Merging %s." % twodx)
-
-            merger = TwoDXMerger(twoda, x, default)
-            merger.merge()
-            merged = True
+                merge = prompt(twodx)
+            if merge:
+                print("Merged: %s" % twodx)
+                merger = TwoDXMerger(twoda, x, default)
+                merger.merge()
+                merged = True
 
         if merged:
             with open(os.path.join(args.output, basef), 'w') as f2:

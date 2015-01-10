@@ -1,4 +1,4 @@
-### 2dilate
+### 2dilate v0.3
 
 #### Description:
 2dilate is a new (and slightly different) 2da merger.  It adds a new
@@ -47,19 +47,21 @@ merging process.
     values on certain rows.
 
 #### Command Line Usage:
-```
-usage: 2dilate.exe [-h] [-v] [-o OUTPUT] [-x TWODX] [--non-default]
-                   files [files ...]
+usage: 2dilate [-h] [-v] [-o OUTPUT] [--non-default] 2dx files [files ...]
 
 positional arguments:
+  twodx                 Directory containing 2dx files.
   files                 2da file(s).
 
 optional arguments:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
   -o OUTPUT, --output OUTPUT
-                        Output directory.
-  -x TWODX, --twodx TWODX
-                        2dx directory.
+                        Output directory.  Default: merged.
   --non-default         Ignore non-default 2da row entries.
+
 ```
+
+#### Change Log
+* v0.3:
+  * Add Yes/No/All prompt before mearging.
