@@ -20,6 +20,9 @@ optional arguments:
                      Can be used multiple times.
 ```
 
+Notes:
+* `erfherder pack` when given a directories, walks all sub-directories.
+
 
 ##### `erfherder dump`
 
