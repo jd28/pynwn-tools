@@ -21,7 +21,7 @@ optional arguments:
 ```
 
 Notes:
-* `erfherder pack` when given a directories, walks all sub-directories.
+* `erfherder pack` when given a directory, all sub-directories are walked.
 
 
 ##### `erfherder dump`

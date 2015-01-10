@@ -47,6 +47,8 @@ merging process.
     values on certain rows.
 
 #### Command Line Usage:
+
+```
 usage: 2dilate [-h] [-v] [-o OUTPUT] [--non-default] 2dx files [files ...]
 
 positional arguments:
