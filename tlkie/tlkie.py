@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', action='version', version='0.1')
 parser.add_argument('output', help='Output TLK or TLS file.')
 parser.add_argument('-l', '--language', help='TLK language.', default=0)
-parser.add_argument('files', help='TLK or TLS file(s).', nargs='+')
+parser.add_argument('file', help='TLK or TLS file.', nargs='+')
 
 args = parser.parse_args()
 
