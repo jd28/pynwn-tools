@@ -14,10 +14,6 @@ merging process.
   any programming language/environment.
 * A simple straight forward interface, that does not require a PhD to learn.
 
-#### Dependencies:
-* [Python 3](https://www.python.org/)
-* [PyNWN](https://github.com/jd28/pynwn)
-
 #### 2dx file format.
 * Header: **2DX V2.0**
 * Specifications: The following lines are optional, their ordering
@@ -46,7 +42,7 @@ merging process.
 #### Command Line Usage:
 
 ```
-usage: 2dilate [-h] [-v] [-o OUTPUT] [--non-default] 2dx files [files ...]
+usage: 2dilate [-h] [-v] [-o OUTPUT] [--non-default] twodx files [files ...]
 
 positional arguments:
   twodx                 Directory containing 2dx files.

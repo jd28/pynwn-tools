@@ -1,10 +1,9 @@
 ### areaglob v0.1
 
-areaglob is simple little utility script to take a bunch of ini files in the
+areaglob is command line utility to take a bunch of ini files in the
 areag.ini format and smush them in to one.  There are command line
 options for setting the script settings for all the final areag.ini
-tileset entries.  If anyone would like an exe version I would be happy
-to make one.
+tileset entries.
 
 See the areag folder in the 7z for how you'd use it.  Most tileset
 haks seem to come with a merged one, so there is a lot of needless
