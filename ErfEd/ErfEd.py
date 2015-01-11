@@ -175,6 +175,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.open(fname)
 
     def newErf(self):
+        self.fileName = None
         self.setErfObject(Erf('HAK'))
 
     def erfReady(self, erf):
@@ -349,8 +350,11 @@ class MainWindow(QtWidgets.QMainWindow):
     def setModified(self, modified):
         self.modified = modified
         if self.fileName is None:
-            self.setWindowTitle("ErfEd - unnamed*")
-        elif modified:
+            if modified:
+                self.setWindowTitle("ErfEd - unnamed*")
+            else:
+                self.setWindowTitle("ErfEd - unnamed")
+        elif self.modified:
             self.setWindowTitle("ErfEd - %s*" % os.path.basename(self.fileName))
         else:
             self.setWindowTitle("ErfEd - %s" % os.path.basename(self.fileName))
