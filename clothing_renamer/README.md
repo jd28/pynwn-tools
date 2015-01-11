@@ -41,7 +41,7 @@ Clothes from the CCC.  Your output directory will be just `output`
    models.  So if you want to control numbers all you have to do is
    add or delete rows.
 2. Extract Lisa's stuff into directory `lisa` and Shemsu-Heru into
-   `shemsu`.  These should have all the mdls and their respective
+   `shemsu`.  These should have all the mdls, plts and their respective
    parts 2da files.
 3. Run `clothing_renamer output/ lisa/ shemsu/`
 
