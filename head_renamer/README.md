@@ -1,9 +1,9 @@
 ### head_renamer v0.1
 
-Renames/updates NWN head models/plt in bulk.
+Renames/updates NWN head MDLs/PLTs in bulk.
 
 #### Setting up your input directories.
-* Extract head MDLs and PLTs.
+* Extract head MDLs and PLTs into any directory.
 
 #### Setting up your input directories.
 * Add your headmodels.2da to your output directory.
@@ -22,7 +22,7 @@ optional arguments:
   -v, --version         show program's version number and exit
   -t TWODA, --twoda TWODA
                         2da head lookup table. Default: headmodel.2da
-  --use-nontoolset      Flag to se head model IDs that cannot be used in the
+  --use-nontoolset      Flag to use head model IDs that cannot be used in the
                         toolset.
 ```
 
@@ -38,7 +38,7 @@ optional arguments:
   the row entry doesn't equal the row number.  But it could have
   additional columns for your modules other races.
 * This new model id is selected by the first available slot.  No clue
-  if this a terrible idea.  There is an option to skip the model range
+  if this a terrible idea.  There is an option to use the model range
   that doesn't show in the toolset.
 
 #### Examples:
@@ -55,6 +55,6 @@ Your output directory will be just `output`.
 
 Then in your `output` directory you'll have all the renamed/updated
 PLTs/MDLs and an updated headmodel.2da saved as headmodel.2da.new.
-Adding new ones is as easy as following the same steps, except to you
+Adding new ones is as easy as following the same steps, except you
 use your new headmodel.2da.  You'd never want to add the same heads
 twice, naturally.

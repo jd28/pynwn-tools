@@ -18,7 +18,7 @@ PLT_NAME_REGEX = re.compile(r'(.+)_head(\d+).[pP][Ll][Tt]')
 parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', action='version', version='0.1')
 parser.add_argument('-t', '--twoda', help='2da head lookup table. Default: headmodel.2da', default='headmodel.2da')
-parser.add_argument('--use-nontoolset', help='Flag to se head model IDs that cannot be used in the toolset.',
+parser.add_argument('--use-nontoolset', help='Flag to use head model IDs that cannot be used in the toolset.',
                     default=False, action='store_true')
 parser.add_argument('output', help='Output directory.')
 parser.add_argument('input', help='Input directories', nargs='+')
