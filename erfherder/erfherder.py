@@ -23,10 +23,28 @@ parser_pack.add_argument('output', help='Output directory.')
 parser_pack = subparsers.add_parser('ls', description='List files from an ERF.')
 parser_pack.add_argument('input', help='Source ERF.')
 
+# rm
+parser_pack = subparsers.add_parser('rm', description='Remove files from an ERF.')
+parser_pack.add_argument('input', help='Source ERF.')
+parser_pack.add_argument('pattern', help='File name or quoted unix file pattern.')
+parser_pack.add_argument('-o', '--output', help='Output ERF. Optional.')
+
 # dupes
 #parser_pack = subparsers.add_parser('dupes', description='Find duplicate files by sha1')
 #parser_pack.add_argument('-p', '--pattern', help='Unix wildcard pattern.')
 #parser_pack.add_argument('input', help='Input ERF files.', nargs='+')
+
+def rm(source, pat, out):
+    if out is None: out = source
+    erf = Erf.from_file(source)
+    dele = [co.get_filename() for co in erf.content
+             if fnmatch.fnmatch(co.get_filename(), pat)]
+    for fn in dele:
+        print("Removing: '%s'." % fn, file=sys.stdout)
+        erf.remove(fn)
+    print("Saving: '%s'." % out, file=sys.stdout)
+    erf.write_to(out)
+
 
 def dump(source, dest, pat):
     if not os.path.isdir(dest):
@@ -136,7 +154,8 @@ if __name__ == "__main__":
 
     elif args.sub_commands == 'ls':
         ls(args.input)
-
+    elif args.sub_commands == 'rm':
+        rm(args.input, args.pattern, args.output)
     elif args.sub_commands == "help":
         if not args.command:
             args.parse_args(['--help'])

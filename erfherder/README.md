@@ -44,7 +44,7 @@ optional arguments:
 ##### `erfherder ls`
 
 ```
-usage: erfherder.exe ls [-h] input
+usage: erfherder ls [-h] input
 
 List files from an ERF.
 
@@ -53,4 +53,21 @@ positional arguments:
 
 optional arguments:
   -h, --help  show this help message and exit
+```
+
+##### `erfherder rm`
+
+```
+usage: erfherder rm [-h] [-o OUTPUT] input pattern
+
+Remove files from an ERF.
+
+positional arguments:
+  input                 Source ERF.
+  pattern               File name or quoted unix file pattern.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -o OUTPUT, --output OUTPUT
+                        Output ERF. Optional.
 ```
