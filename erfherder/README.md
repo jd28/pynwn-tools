@@ -40,3 +40,17 @@ optional arguments:
   -p PATTERN, --pattern PATTERN
                         Unix wildcard pattern.
 ```
+
+##### `erfherder ls`
+
+```
+usage: erfherder.exe ls [-h] input
+
+List files from an ERF.
+
+positional arguments:
+  input       Source ERF.
+
+optional arguments:
+  -h, --help  show this help message and exit
+```
