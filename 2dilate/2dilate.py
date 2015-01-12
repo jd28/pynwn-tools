@@ -22,6 +22,9 @@ parser.add_argument('files', help='2da file(s).', nargs='+')
 
 args = parser.parse_args()
 
+def getScriptPath():
+    return os.path.dirname(os.path.realpath(sys.argv[0]))
+
 def safe_mkdir(path):
     if not os.path.exists(path):
         os.makedirs(path)
@@ -62,7 +65,7 @@ if __name__ == "__main__":
     safe_mkdir(args.output)
     tdasource = None
     if args.non_default:
-        tdasource = zipfile.ZipFile('2dasource.zip')
+        tdasource = zipfile.ZipFile(os.path.join(getScriptPath(),'2dasource.zip'))
 
     for f in args.files:
         basef = os.path.basename(f)

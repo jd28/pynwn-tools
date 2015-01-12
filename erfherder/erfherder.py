@@ -19,6 +19,10 @@ parser_pack.add_argument('-p', '--pattern', help='Unix wildcard pattern.')
 parser_pack.add_argument('input', help='Source ERF.')
 parser_pack.add_argument('output', help='Output directory.')
 
+# ls
+parser_pack = subparsers.add_parser('ls', description='List files from an ERF.')
+parser_pack.add_argument('input', help='Source ERF.')
+
 # dupes
 #parser_pack = subparsers.add_parser('dupes', description='Find duplicate files by sha1')
 #parser_pack.add_argument('-p', '--pattern', help='Unix wildcard pattern.')
@@ -83,6 +87,21 @@ def pack(fout, fin, excludes):
 
     out.write_to(args.output)
 
+def ls(erf):
+    e = Erf.from_file(erf)
+    res = []
+    for co in e.content:
+        res.append((co.get_filename(), co.size))
+
+    res = sorted(res, key=lambda c: c[0])
+    try:
+        sys.stdout.write('total %d\n' % len(res))
+        for r in res:
+            sys.stdout.write('%-20s %d\n' % r)
+    except OSError:
+        pass
+
+
 def dupes(erfs):
     shas = {}
     for erf in erfs:
@@ -114,6 +133,9 @@ if __name__ == "__main__":
 
     elif args.sub_commands == 'dupes':
         dupes(args.input)
+
+    elif args.sub_commands == 'ls':
+        ls(args.input)
 
     elif args.sub_commands == "help":
         if not args.command:
