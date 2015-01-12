@@ -94,8 +94,12 @@ def ls(erf):
         res.append((co.get_filename(), co.size))
 
     res = sorted(res, key=lambda c: c[0])
-    for r in res:
-        print('%-20s %d' % r)
+    try:
+        sys.stdout.write('total %d\n' % len(res))
+        for r in res:
+            sys.stdout.write('%-20s %d\n' % r)
+    except OSError:
+        pass
 
 
 def dupes(erfs):
