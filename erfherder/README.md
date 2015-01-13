@@ -73,4 +73,16 @@ optional arguments:
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
                         Output ERF. Optional.
+#### `erfherder hash`
+```
+usage: erfherder hash [-h] [-t TYPE] input
+
+Generate hashes of an ERFs contents.
+
+positional arguments:
+  input                 Source ERF.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -t TYPE, --type TYPE  Hash type. (sha1, md5, sha256). Default: sha1
 ```

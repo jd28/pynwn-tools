@@ -30,6 +30,11 @@ parser_pack.add_argument('input', help='Source ERF.')
 parser_pack.add_argument('pattern', help='File name or quoted unix file pattern.')
 parser_pack.add_argument('-o', '--output', help='Output ERF. Optional.')
 
+# hash
+parser_pack = subparsers.add_parser('hash', description='Generate hashes.')
+parser_pack.add_argument('input', help='Source ERF.')
+parser_pack.add_argument('-t', '--type', help='Hash type. (sha1, md5, sha256).  Default: sha1', default='sha1')
+
 # dupes
 #parser_pack = subparsers.add_parser('dupes', description='Find duplicate files by sha1')
 #parser_pack.add_argument('-p', '--pattern', help='Unix wildcard pattern.')
@@ -132,16 +137,31 @@ def ls(erfs):
 
         sys.stdout.write('\n')
 
+def hsh(erf, type):
+    type = type.lower()
+    if not type in ['sha1', 'md5', 'sha256']:
+        print("Error: Invalid hash type: %s!" % type)
+        return
+
     e = Erf.from_file(erf)
     res = []
     for co in e.content:
-        res.append((co.get_filename(), co.size))
+        if type == 'md5':
+            h = hashlib.md5()
+        elif type == 'sha256':
+            h = hashlib.sha256()
+        elif type == 'sha1':
+            h = hashlib.sha1()
+        else:
+            assert(False)
+        h.update(co.get())
+        res.append((co.get_filename(), h.hexdigest()))
 
     res = sorted(res, key=lambda c: c[0])
     try:
         sys.stdout.write('total %d\n' % len(res))
         for r in res:
-            sys.stdout.write('%-20s %d\n' % r)
+            sys.stdout.write('%-20s %s\n' % r)
     except OSError:
         pass
 
@@ -177,6 +197,8 @@ if __name__ == "__main__":
         dupes(args.input)
     elif args.sub_commands == 'ls':
         ls(args.input)
+    elif args.sub_commands == 'hash':
+        hsh(args.input, args.type)
     elif args.sub_commands == 'rm':
         rm(args.input, args.pattern, args.output)
     elif args.sub_commands == "help":
