@@ -16,9 +16,10 @@ parser_pack.add_argument('input', help='Add files/directories to add.', nargs='+
 # dump
 parser_pack = subparsers.add_parser('dump', description='Dump files from an ERF.')
 parser_pack.add_argument('-p', '--pattern', help='Unix wildcard pattern.')
-parser_pack.add_argument('input', help='Source ERF.')
 parser_pack.add_argument('output', help='Output directory.')
-
+parser_pack.add_argument('input', help='Source ERFs.', nargs='+')
+parser_pack.add_argument('--subdir', help='Flag to create subdirectories for each ERF in OUTPUT directory.',
+                         default=False, action='store_true')
 # ls
 parser_pack = subparsers.add_parser('ls', description='List files from an ERF.')
 parser_pack.add_argument('input', help='Source ERF.')
@@ -46,21 +47,27 @@ def rm(source, pat, out):
     erf.write_to(out)
 
 
-def dump(source, dest, pat):
-    if not os.path.isdir(dest):
-        os.mkdir(dest)
-    elif not os.path.isfile(source):
-        print("Error: Unable to locate '%s'." % source, file=sys.stderr)
-        return
+def dump(sources, dest, pat, subdir):
+    for source in sources:
+        base = os.path.basename(source)
+        base = os.path.splitext(base)[0]
+        if not os.path.isdir(dest):
+            os.mkdir(dest)
+        elif not os.path.isfile(source):
+            print("Error: Unable to locate '%s'." % source, file=sys.stderr)
+            continue
 
-    try:
-        out = Erf.from_file(source)
-        for co in out.content:
-            if not pat or fnmatch.fnmatch(co.get_filename(), pat):
-                co.write_to(os.path.join(dest, co.get_filename()))
+        try:
+            out = Erf.from_file(source)
+            ndest = os.path.join(dest, base) if subdir else dest
+            if not os.path.isdir(ndest):
+                os.mkdir(ndest)
+            for co in out.content:
+                if not pat or fnmatch.fnmatch(co.get_filename(), pat):
+                    co.write_to(os.path.join(ndest, co.get_filename()))
 
-    except ValueError as e:
-        print("Error: Unable to open %s: %s." % str(e), file=sys.stderr)
+        except ValueError as e:
+            print("Error: Unable to open %s: %s." % str(e), file=sys.stderr)
 
 def pack(fout, fin, excludes):
     def check_excluded(path):
@@ -145,13 +152,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
     if args.sub_commands == 'pack':
         pack(args.output, args.input, args.exclude)
-
     elif args.sub_commands == 'dump':
-        dump(args.input, args.output, args.pattern)
-
+        dump(args.input, args.output, args.pattern, args.subdir)
     elif args.sub_commands == 'dupes':
         dupes(args.input)
-
     elif args.sub_commands == 'ls':
         ls(args.input)
     elif args.sub_commands == 'rm':

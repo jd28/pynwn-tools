@@ -27,18 +27,21 @@ Notes:
 ##### `erfherder dump`
 
 ```
-usage: erfherder dump [-h] [-p PATTERN] input output
+usage: erfherder dump [-h] [-p PATTERN] [--subdir]
+                      output input [input ...]
 
-Dump files from an ERF.
+Dump files from ERF files.
 
 positional arguments:
-  input                 Source ERF.
   output                Output directory.
+  input                 Source ERFs.
 
 optional arguments:
   -h, --help            show this help message and exit
   -p PATTERN, --pattern PATTERN
                         Unix wildcard pattern.
+  --subdir              Flag to create subdirectories for each ERF in OUTPUT
+                        directory.
 ```
 
 ##### `erfherder ls`
