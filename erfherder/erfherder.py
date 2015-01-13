@@ -22,7 +22,7 @@ parser_pack.add_argument('--subdir', help='Flag to create subdirectories for eac
                          default=False, action='store_true')
 # ls
 parser_pack = subparsers.add_parser('ls', description='List files from an ERF.')
-parser_pack.add_argument('input', help='Source ERF.')
+parser_pack.add_argument('input', help='Source ERF.', nargs='+')
 
 # rm
 parser_pack = subparsers.add_parser('rm', description='Remove files from an ERF.')
@@ -112,7 +112,26 @@ def pack(fout, fin, excludes):
 
     out.write_to(args.output)
 
-def ls(erf):
+def ls(erfs):
+    for erf in erfs:
+        e = Erf.from_file(erf)
+        res = []
+        total = 0
+        for co in e.content:
+            res.append((co.get_filename(), co.size))
+            total += co.size
+
+        res = sorted(res, key=lambda c: c[0])
+        try:
+            sys.stdout.write('%s:\n' % erf)
+            sys.stdout.write('files: %d, size: %d\n' % (len(res), total))
+            for r in res:
+                sys.stdout.write('%-20s %d\n' % r)
+        except OSError:
+            pass
+
+        sys.stdout.write('\n')
+
     e = Erf.from_file(erf)
     res = []
     for co in e.content:
