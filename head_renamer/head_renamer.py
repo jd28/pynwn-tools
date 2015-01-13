@@ -12,8 +12,8 @@ import shutil
 
 from pynwn.file.twoda import TwoDA
 
-MDL_NAME_REGEX = re.compile(r'p(\D\D)(\d_head)(\d+).[Mm][Dd][Ll]')
-PLT_NAME_REGEX = re.compile(r'(.+)_head(\d+).[pP][Ll][Tt]')
+MDL_NAME_REGEX = re.compile(r'p(\D\D)(\d+_head)(\d+).mdl', flags=re.IGNORECASE)
+PLT_NAME_REGEX = re.compile(r'(.+)_head(\d+).plt', flags=re.IGNORECASE)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', action='version', version='0.1')
@@ -75,9 +75,7 @@ def get_next_row(mtype, tda, skip):
 
 
 def run(inputs, skip, output):
-    converted = {}
     for dir in inputs:
-        converted[dir] = {}
         for f in listdir(dir):
             p = join(dir, f)
             if not isfile(p): continue
