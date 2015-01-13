@@ -27,24 +27,27 @@ Notes:
 ##### `erfherder dump`
 
 ```
-usage: erfherder dump [-h] [-p PATTERN] input output
+usage: erfherder dump [-h] [-p PATTERN] [--subdir]
+                      output input [input ...]
 
-Dump files from an ERF.
+Dump files from ERF files.
 
 positional arguments:
-  input                 Source ERF.
   output                Output directory.
+  input                 Source ERFs.
 
 optional arguments:
   -h, --help            show this help message and exit
   -p PATTERN, --pattern PATTERN
                         Unix wildcard pattern.
+  --subdir              Flag to create subdirectories for each ERF in OUTPUT
+                        directory.
 ```
 
 ##### `erfherder ls`
 
 ```
-usage: erfherder.exe ls [-h] input
+usage: erfherder ls [-h] input
 
 List files from an ERF.
 
@@ -53,4 +56,36 @@ positional arguments:
 
 optional arguments:
   -h, --help  show this help message and exit
+```
+
+##### `erfherder rm`
+
+```
+usage: erfherder rm [-h] [-o OUTPUT] input pattern
+
+Remove files from an ERF.
+
+positional arguments:
+  input                 Source ERF.
+  pattern               File name or quoted unix file pattern.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -o OUTPUT, --output OUTPUT
+                        Output ERF. Optional.  If not provided
+                        source ERF is overwritten.
+```
+
+#### `erfherder hash`
+```
+usage: erfherder hash [-h] [-t TYPE] input
+
+Generate hashes of an ERFs contents.
+
+positional arguments:
+  input                 Source ERF.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -t TYPE, --type TYPE  Hash type. (sha1, md5, sha256). Default: sha1
 ```

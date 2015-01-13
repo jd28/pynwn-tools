@@ -1,6 +1,6 @@
 #!/usr/bin/env BASH
 
-declare -a arr=("tlkie" "ErfEd" "areaglob" "2dilate" "erfherder" "clothing_renamer")
+declare -a arr=("tlkie" "ErfEd" "areaglob" "2dilate" "erfherder" "clothing_renamer" "head_renamer")
 
 rm -rf dist
 mkdir dist

@@ -4,7 +4,7 @@ import argparse, os, sys, fnmatch, hashlib
 from pynwn.file.erf import Erf
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-v', '--version', action='version', version='0.1')
+parser.add_argument('-v', '--version', action='version', version='0.2')
 subparsers = parser.add_subparsers(description='erfherder commands', dest='sub_commands')
 
 # pack
@@ -16,33 +16,63 @@ parser_pack.add_argument('input', help='Add files/directories to add.', nargs='+
 # dump
 parser_pack = subparsers.add_parser('dump', description='Dump files from an ERF.')
 parser_pack.add_argument('-p', '--pattern', help='Unix wildcard pattern.')
-parser_pack.add_argument('input', help='Source ERF.')
 parser_pack.add_argument('output', help='Output directory.')
-
+parser_pack.add_argument('input', help='Source ERFs.', nargs='+')
+parser_pack.add_argument('--subdir', help='Flag to create subdirectories for each ERF in OUTPUT directory.',
+                         default=False, action='store_true')
 # ls
 parser_pack = subparsers.add_parser('ls', description='List files from an ERF.')
+parser_pack.add_argument('input', help='Source ERF.', nargs='+')
+
+# rm
+parser_pack = subparsers.add_parser('rm', description='Remove files from an ERF.')
 parser_pack.add_argument('input', help='Source ERF.')
+parser_pack.add_argument('pattern', help='File name or quoted unix file pattern.')
+parser_pack.add_argument('-o', '--output', help='Output ERF. Optional.')
+
+# hash
+parser_pack = subparsers.add_parser('hash', description='Generate hashes.')
+parser_pack.add_argument('input', help='Source ERF.')
+parser_pack.add_argument('-t', '--type', help='Hash type. (sha1, md5, sha256).  Default: sha1', default='sha1')
 
 # dupes
 #parser_pack = subparsers.add_parser('dupes', description='Find duplicate files by sha1')
 #parser_pack.add_argument('-p', '--pattern', help='Unix wildcard pattern.')
 #parser_pack.add_argument('input', help='Input ERF files.', nargs='+')
 
-def dump(source, dest, pat):
-    if not os.path.isdir(dest):
-        os.mkdir(dest)
-    elif not os.path.isfile(source):
-        print("Error: Unable to locate '%s'." % source, file=sys.stderr)
-        return
+def rm(source, pat, out):
+    if out is None: out = source
+    erf = Erf.from_file(source)
+    dele = [co.get_filename() for co in erf.content
+             if fnmatch.fnmatch(co.get_filename(), pat)]
+    for fn in dele:
+        print("Removing: '%s'." % fn, file=sys.stdout)
+        erf.remove(fn)
+    print("Saving: '%s'." % out, file=sys.stdout)
+    erf.write_to(out)
 
-    try:
-        out = Erf.from_file(source)
-        for co in out.content:
-            if not pat or fnmatch.fnmatch(co.get_filename(), pat):
-                co.write_to(os.path.join(dest, co.get_filename()))
 
-    except ValueError as e:
-        print("Error: Unable to open %s: %s." % str(e), file=sys.stderr)
+def dump(sources, dest, pat, subdir):
+    for source in sources:
+        base = os.path.basename(source)
+        base = os.path.splitext(base)[0]
+        if not os.path.isdir(dest):
+            os.mkdir(dest)
+        elif not os.path.isfile(source):
+            print("Error: Unable to locate '%s'." % source, file=sys.stderr)
+            continue
+
+        try:
+            out = Erf.from_file(source)
+            ndest = os.path.join(dest, base) if subdir else dest
+            if not os.path.isdir(ndest):
+                os.mkdir(ndest)
+            for co in out.content:
+                if not pat or fnmatch.fnmatch(co.get_filename(), pat):
+                    co.write_to(os.path.join(ndest, co.get_filename()))
+
+        except ValueError as e:
+            print("Error: Unable to open %s: %s." % str(e), file=sys.stderr)
 
 def pack(fout, fin, excludes):
     def check_excluded(path):
@@ -87,17 +117,51 @@ def pack(fout, fin, excludes):
 
     out.write_to(args.output)
 
-def ls(erf):
+def ls(erfs):
+    for erf in erfs:
+        e = Erf.from_file(erf)
+        res = []
+        total = 0
+        for co in e.content:
+            res.append((co.get_filename(), co.size))
+            total += co.size
+
+        res = sorted(res, key=lambda c: c[0])
+        try:
+            sys.stdout.write('%s:\n' % erf)
+            sys.stdout.write('files: %d, size: %d\n' % (len(res), total))
+            for r in res:
+                sys.stdout.write('%-20s %d\n' % r)
+        except OSError:
+            pass
+
+        sys.stdout.write('\n')
+
+def hsh(erf, type):
+    type = type.lower()
+    if not type in ['sha1', 'md5', 'sha256']:
+        print("Error: Invalid hash type: %s!" % type)
+        return
+
     e = Erf.from_file(erf)
     res = []
     for co in e.content:
-        res.append((co.get_filename(), co.size))
+        if type == 'md5':
+            h = hashlib.md5()
+        elif type == 'sha256':
+            h = hashlib.sha256()
+        elif type == 'sha1':
+            h = hashlib.sha1()
+        else:
+            assert(False)
+        h.update(co.get())
+        res.append((co.get_filename(), h.hexdigest()))
 
     res = sorted(res, key=lambda c: c[0])
     try:
         sys.stdout.write('total %d\n' % len(res))
         for r in res:
-            sys.stdout.write('%-20s %d\n' % r)
+            sys.stdout.write('%-20s %s\n' % r)
     except OSError:
         pass
 
@@ -127,16 +191,16 @@ if __name__ == "__main__":
     args = parser.parse_args()
     if args.sub_commands == 'pack':
         pack(args.output, args.input, args.exclude)
-
     elif args.sub_commands == 'dump':
-        dump(args.input, args.output, args.pattern)
-
+        dump(args.input, args.output, args.pattern, args.subdir)
     elif args.sub_commands == 'dupes':
         dupes(args.input)
-
     elif args.sub_commands == 'ls':
         ls(args.input)
-
+    elif args.sub_commands == 'hash':
+        hsh(args.input, args.type)
+    elif args.sub_commands == 'rm':
+        rm(args.input, args.pattern, args.output)
     elif args.sub_commands == "help":
         if not args.command:
             args.parse_args(['--help'])

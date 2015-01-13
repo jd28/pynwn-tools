@@ -1,6 +1,6 @@
 ### clothing_renamer v0.1
 
-Renames/updates NWN clothes models/plt/tga in bulk and updates parts
+Renames/updates NWN clothes models/plt in bulk and updates parts
 2das.
 
 #### Setting up your input directories.

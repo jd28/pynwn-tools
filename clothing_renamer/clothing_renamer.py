@@ -31,10 +31,10 @@ import shutil
 
 from pynwn.file.twoda import TwoDA
 
-MDL_NAME_REGEX = re.compile(r'(p\D\D\d_)(\D+)(\d+).[Mm][Dd][Ll]')
-MDL_NAMERL_REGEX = re.compile(r'(p\D\D\d_)(\D+)([rlRL])(\d+).[Mm][Dd][Ll]')
-PLT_NAME_REGEX = re.compile(r'(.+)_(\D+)(\d+).[pP][Ll][Tt]')
-PLT_NAMERL_REGEX = re.compile(r'(.+)_(\D+)([rlRL])(\d+).[pP][Ll][Tt]')
+MDL_NAME_REGEX = re.compile(r'(p\D\D\d+_)(\D+)(\d+).mdl', flags=re.IGNORECASE)
+MDL_NAMERL_REGEX = re.compile(r'(p\D\D\d+_)(\D+)([rl])(\d+).mdl', flags=re.IGNORECASE)
+PLT_NAME_REGEX = re.compile(r'(.+)_(\D+)(\d+).plt', flags=re.IGNORECASE)
+PLT_NAMERL_REGEX = re.compile(r'(.+)_(\D+)([rl])(\d+).plt', flags=re.IGNORECASE)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', action='version', version='0.1')
