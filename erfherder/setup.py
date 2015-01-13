@@ -3,7 +3,7 @@ import os
 
 stuff = {
     'name': 'erfherder',
-    'version': "0.1",
+    'version': "0.2",
     'description': "Works with, modifies, files in ERF format.",
     'packages': find_packages(),
     'author': 'jmd'

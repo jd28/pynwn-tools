@@ -4,7 +4,7 @@ import argparse, os, sys, fnmatch, hashlib
 from pynwn.file.erf import Erf
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-v', '--version', action='version', version='0.1')
+parser.add_argument('-v', '--version', action='version', version='0.2')
 subparsers = parser.add_subparsers(description='erfherder commands', dest='sub_commands')
 
 # pack
