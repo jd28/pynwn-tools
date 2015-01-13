@@ -72,7 +72,10 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
-                        Output ERF. Optional.
+                        Output ERF. Optional.  If not provided
+                        source ERF is overwritten.
+```
+
 #### `erfherder hash`
 ```
 usage: erfherder hash [-h] [-t TYPE] input
