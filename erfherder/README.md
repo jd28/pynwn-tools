@@ -12,7 +12,7 @@ Pack files and directories into an ERF file.
 
 positional arguments:
   output             Output ERF. Extension determines ERF type.
-  input              Add files/directories to add.
+  input              Files/directories to add.
 
 optional arguments:
   -h, --help         show this help message and exit
@@ -21,7 +21,10 @@ optional arguments:
 ```
 
 Notes:
-* `erfherder pack` when given a directory, all sub-directories are walked.
+* `erfherder pack` when given a directory, all sub-directories are
+  walked.
+* `erfherder pack` when given an output file that already exists will
+  add files to it.
 
 
 ##### `erfherder dump`
@@ -43,6 +46,10 @@ optional arguments:
   --subdir              Flag to create subdirectories for each ERF in OUTPUT
                         directory.
 ```
+
+Example: Dump all 2DAs from a hak into the directory `output`:
+
+    erfherder dump -p "*.2da" output/ some_random.hak
 
 ##### `erfherder ls`
 
