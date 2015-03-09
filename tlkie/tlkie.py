@@ -45,7 +45,7 @@ if __name__ == "__main__":
     if outext != '.tlk' and outext != '.tls':
         raise ValueError("Tlkie can only output a TLK or TLS file.")
 
-    for f in args.files:
+    for f in args.file:
         basef = os.path.basename(f)
         ext = os.path.splitext(basef)[1]
         tl = load_by_ext(f, ext.lower())
