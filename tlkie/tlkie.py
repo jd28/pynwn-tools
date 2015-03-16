@@ -8,7 +8,7 @@ from pynwn.util.helper import get_encoding
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', action='version', version='0.1')
-parser.add_argument('output', help='Output TLK or TLS file.')
+parser.add_argument('-o', '--output', help='Output TLK or TLS file.')
 parser.add_argument('-l', '--language', help='TLK language.', default=0)
 parser.add_argument('file', help='TLK or TLS file.', nargs='+')
 
@@ -40,10 +40,14 @@ def save_by_ext(main, ext):
 
 
 if __name__ == "__main__":
-    main = None
     basef = os.path.basename(args.output)
     outext = os.path.splitext(basef)[1].lower()
-    if outext != '.tlk' and outext != '.tls':
+
+    if outext == '.tlk':
+        main = Tlk()
+    elif outext == '.tls':
+        main = TLS()
+    else:
         raise ValueError("Tlkie can only output a TLK or TLS file.")
 
     for f in args.file:
