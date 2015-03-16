@@ -4,6 +4,7 @@ import argparse, os, sys
 
 from pynwn.file.tlk import Tlk
 from pynwn.file.tls import TLS
+from pynwn.util.helper import get_encoding
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', action='version', version='0.1')
@@ -31,10 +32,10 @@ def save_by_ext(main, ext):
                 main.write_tlk(f, args.language)
     elif '.tls' == ext:
         if isinstance(main, Tlk):
-            with open(args.output, 'w', encoding=sys.stdout.encoding) as f:
+            with open(args.output, 'w', encoding=get_encoding()) as f:
                 main.write_tls(f)
         elif isinstance(main, TLS):
-            with open(args.output, 'w', encoding=sys.stdout.encoding) as f:
+            with open(args.output, 'w', encoding=get_encoding()) as f:
                 main.write(f)
 
 
