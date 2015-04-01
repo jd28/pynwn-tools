@@ -3,6 +3,7 @@
 import argparse, os, sys, re, json
 import subprocess, shutil
 import codecs
+import configparser
 
 parser = argparse.ArgumentParser()
 parser.add_argument('scripts', help='Input scripts', nargs='+')
@@ -103,6 +104,14 @@ DISPATCH = {
 }
 
 if __name__ == "__main__":
+    config = configparser.ConfigParser()
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    try:
+        config.read(os.path.join(script_dir, 'nwsublime.ini'))
+    except:
+        print("Error reading nwsublime.ini")
+        exit(1)
+
     args = parser.parse_args()
     holder = {
         'scope': 'source.nss',
@@ -123,11 +132,7 @@ if __name__ == "__main__":
         json.dump(holder, f, ensure_ascii=True, sort_keys=True,
                   indent=4, separators=(',', ': '))
 
-    import configparser
-    config = configparser.ConfigParser()
-    script_dir = os.path.dirname(os.path.realpath(__file__))
     try:
-        config.read(os.path.join(script_dir, 'nwsublime.ini'))
         out_dir = config.get('completions', 'dir')
         move = config.get('completions', 'move') == 'true'
         if os.path.isdir(out_dir):
@@ -144,3 +149,4 @@ if __name__ == "__main__":
     except Exception as e:
         print('Unable to copy completions file.')
         print(e)
+        exit(1)
