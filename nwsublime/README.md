@@ -5,7 +5,7 @@ nwsublime is a utility that creates CTAGS files and sublime-completions for use 
 
 #### Installation
 * Install CTags with [Package Control](https://packagecontrol.io/).  Note that you don't need to setup up the ctags path, unless you want to...  It won't work well with NWScript tho, so nwsublime includes [Exuberant CTAGS](http://ctags.sourceforge.net/)
-* Install [STNeverwinterScript](https://github.com/CromFr/STNeverwinterScript#manual-install-) manually.  Note that if you install via PackageControl it will read
+* Install [STNeverwinterScript](https://github.com/CromFr/STNeverwinterScript#manual-install-) manually.  Note that if you install via PackageControl it will read in the included completions which you may or may not want.
 
 #### Usage:
 ```
