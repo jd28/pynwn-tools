@@ -17,9 +17,7 @@ merging process.
 #### 2dx file format version 2.1
 
 * Header: **2DX V2.1**
-* YAML Metadata: The following lines are optional, their ordering
-  does not matter.  Their contents are limited to a single line.  If
-  none are used there must be one blank line between the Header and
+* YAML Metadata: The following is optional if not specified there must be one blank line between the Header and
   the Column Labels.  The YAML metadata is enclosed within two lines containing
   "---".  If you are not familiar with YAML visit [yaml.org](http://www.yaml.org/).
   Please note that you can put _anything_ in the metadata so long as it
