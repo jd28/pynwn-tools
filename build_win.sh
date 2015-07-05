@@ -1,10 +1,11 @@
 #!/usr/bin/env BASH
 
-declare -a arr=("tlkie" "ErfEd" "areaglob" "2dilate" "erfherder" "clothing_renamer" "head_renamer")
+declare -a arr=("tlkie" "ErfEd" "areaglob" "2dilate" \
+                "erfherder" "clothing_renamer" \
+                "head_renamer" "nwsublime")
 
 rm -rf dist
 mkdir dist
-#mkdir dist/library
 
 for i in "${arr[@]}"
 do
@@ -15,6 +16,3 @@ do
     cp -r dist/* ../dist
     cd ..
 done
-
-#7z a dist/library.zip dist/library/*
-#rm -rf dist/library
