@@ -1,5 +1,8 @@
-2DX V2.0
-DESCRIPTION: Modify base class recommended starting stats.
+2DX V2.1
+---
+description: |
+    Modify base class recommended starting stats.
+---
            Str   Dex   Con   Wis   Int   Cha
 0          17    10    16    8     13    8  
 1          14    10    ####  8     14    16 

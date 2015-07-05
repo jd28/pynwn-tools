@@ -1,5 +1,7 @@
-2DX V2.0
-DESCRIPTION: Add new column to polymorph.2da
+2DX V2.1
+---
+description: Add new column to polymorph.2da
+---
 	       FakeItemBitMask    AnotherColumn
 0          0x21               0
 1          0x21               0

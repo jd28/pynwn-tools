@@ -13,7 +13,7 @@ import os
 
 stuff = {
     'name': '2dilate',
-    'version': "0.3",
+    'version': "0.4",
     'description': "A slightly different kind of 2da merger",
     'packages': find_packages(),
     'author': 'jmd',

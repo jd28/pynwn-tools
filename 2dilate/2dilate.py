@@ -12,6 +12,7 @@ import argparse
 import zipfile
 import sys
 import io
+import glob
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', action='version', version='0.1')
@@ -40,7 +41,7 @@ def get_2dxs(base):
 
 ALL = False
 
-def prompt(text):
+def prompt(file, desc):
     global ALL
     if ALL: return True
 
@@ -50,7 +51,7 @@ def prompt(text):
         no = set(['no','n'])
         all = set(['all','al','a'])
 
-        choice = input('Merge %s? [Yes/No/All] ' % text).lower()
+        choice = input('%sMerge%s? [Yes/No/All] ' % (desc, file)).lower()
         if choice in no:
             return False
         elif choice in yes:
@@ -67,7 +68,12 @@ if __name__ == "__main__":
     if args.non_default:
         tdasource = zipfile.ZipFile(os.path.join(getScriptPath(),'2dasource.zip'))
 
-    for f in args.files:
+    files = []
+    if os.name == 'nt':
+        for f in args.files:
+            files += glob.glob(f)
+
+    for f in files:
         basef = os.path.basename(f)
         base = os.path.splitext(basef)[0]
         twodxs = get_2dxs(base)
@@ -83,10 +89,10 @@ if __name__ == "__main__":
         merged = False
         for twodx in twodxs:
             x = TwoDX(twodx)
-            if x.description:
-                merge = prompt("%s (%s)" % (x.description, twodx))
+            if 'description' in x.metadata:
+                merge = prompt("", "\n%s\n" % x.metadata['description'])
             else:
-                merge = prompt(twodx)
+                merge = prompt(" "+twodx, "\n")
             if merge:
                 print("Merged: %s" % twodx)
                 merger = TwoDXMerger(twoda, x, default)
