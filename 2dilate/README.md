@@ -28,7 +28,9 @@ merging process.
   merged need to be included.  Also, new columns can be added.
 * Rows: As 2da with a couple exceptions:
   * Row numbers are significant, this is how 2dilate decides where to
-    merge the 2dx file.
+    merge the 2dx file.  Row numbers can be left unspecified: **#** in
+    place of a row number means simply append the row to the 2da.  These
+    are unaffected by other TwoDX row numbers.
   * Row numbers are not expected to start from 0, they should be start
     wherever you want to merge.  They need not be contiguous or even
     ordered.

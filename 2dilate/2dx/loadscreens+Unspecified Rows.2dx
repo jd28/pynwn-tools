@@ -1,0 +1,6 @@
+2DX V2.1
+
+    Label                  ScriptingName                  BMPResRef   TileSet StrRef 
+#   "This is a test"       AREA_TRANSITION_BD_01          ls_tcbd0_01 TCBD0   ****   
+500 "This is Normal"       AREA_TRANSITION_BD_02          ls_tcbd0_02 TCBD0   ****   
+#   "This is another"      AREA_TRANSITION_BD_02          ls_tcbd0_02 TCBD0   ****   
