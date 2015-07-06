@@ -40,6 +40,9 @@ def get_2dxs(base):
     return matches
 
 ALL = False
+yes = set(['yes','y', 'ye', ''])
+no = set(['no','n'])
+all = set(['all','al','a'])
 
 def prompt(file, desc):
     global ALL
@@ -47,11 +50,8 @@ def prompt(file, desc):
 
     while True:
         # raw_input returns the empty string for "enter"
-        yes = set(['yes','y', 'ye', ''])
-        no = set(['no','n'])
-        all = set(['all','al','a'])
 
-        choice = input('%sMerge%s? [Yes/No/All] ' % (desc, file)).lower()
+        choice = input('%sMerge%s? [Yes/no/all] ' % (desc, file)).lower()
         if choice in no:
             return False
         elif choice in yes:
