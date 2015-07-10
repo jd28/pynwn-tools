@@ -51,7 +51,7 @@ def prompt(file, desc):
     while True:
         # raw_input returns the empty string for "enter"
 
-        choice = input('%sMerge%s? [Yes/no/all] ' % (desc, file)).lower()
+        choice = input('%sMerge %s? [yes/no/all] ' % (desc, file)).lower()
         if choice in no:
             return False
         elif choice in yes:
@@ -90,9 +90,9 @@ if __name__ == "__main__":
         for twodx in twodxs:
             x = TwoDX(twodx)
             if 'description' in x.metadata:
-                merge = prompt("", "\n%s\n" % x.metadata['description'])
+                merge = prompt(twodx, "\n%s\n" % x.metadata['description'])
             else:
-                merge = prompt(" "+twodx, "\n")
+                merge = prompt(twodx, "\n")
             if merge:
                 print("Merged: %s" % twodx)
                 merger = TwoDXMerger(twoda, x, default)
