@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import argparse, os, sys, fnmatch, hashlib
+import argparse, os, sys, fnmatch, hashlib, pprint
 
 from pynwn.file.erf import Erf
 
@@ -36,9 +36,9 @@ parser_pack.add_argument('input', help='Source ERF.')
 parser_pack.add_argument('-t', '--type', help='Hash type. (sha1, md5, sha256).  Default: sha1', default='sha1')
 
 # dupes
-#parser_pack = subparsers.add_parser('dupes', description='Find duplicate files by sha1')
-#parser_pack.add_argument('-p', '--pattern', help='Unix wildcard pattern.')
-#parser_pack.add_argument('input', help='Input ERF files.', nargs='+')
+parser_pack = subparsers.add_parser('dupes', description='Find duplicate files by sha1')
+parser_pack.add_argument('-p', '--pattern', help='Unix wildcard pattern.')
+parser_pack.add_argument('input', help='Input ERF files.', nargs='+')
 
 def rm(source, pat, out):
     if out is None: out = source
@@ -167,6 +167,7 @@ def hsh(erf, type):
 
 
 def dupes(erfs):
+    pp = pprint.PrettyPrinter(indent=2)
     shas = {}
     for erf in erfs:
         e = Erf.from_file(erf)
@@ -174,15 +175,19 @@ def dupes(erfs):
             m = hashlib.sha1()
             m.update(co.get())
             d = m.hexdigest()
-            t = (erf, co.get_filename())
+            t = (erf, co.get_filename(), co.size)
             if d in shas:
                 shas[d].append(t)
             else:
                 shas[d] = [t]
 
+
+    size = 0
     for k, v in shas.items():
         if len(v) > 1:
-            print(v)
+            size += v[0][2] * (len(v) - 1)
+            pp.pprint(v)
+    print("Wasted space: %d in bytes." % size)
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
