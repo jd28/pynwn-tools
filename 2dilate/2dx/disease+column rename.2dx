@@ -1,0 +1,15 @@
+2DX V2.1
+---
+description: |
+ Required for previous modification.
+column_rename:
+  Dice_1: Dice1
+  Dam_1: Dam1
+  Type_1: Type1
+  Dice_2: Dice2
+  Dam_2: Dam2
+  Type_2: Type2
+  Dice_3: Dice3
+  Dam_3: Dam3
+  Type_3: Type3
+---
