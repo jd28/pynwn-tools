@@ -117,3 +117,7 @@ merged/
 
 # PyCharm
 /*/.idea/
+
+*.mod
+*.BackupMod
+*.sublime-completions
