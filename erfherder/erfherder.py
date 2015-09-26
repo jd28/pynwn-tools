@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import argparse, os, sys, fnmatch, hashlib, pprint
 
-from pynwn.file.erf import Erf
+from pynwn import Erf
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', action='version', version='0.2')

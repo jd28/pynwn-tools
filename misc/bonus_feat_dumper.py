@@ -2,9 +2,8 @@
 
 import argparse
 
-from pynwn.resource import ResourceManager
-from pynwn.file.twoda import TwoDA
-from pynwn.item import Item
+from pynwn import ResourceManager
+from pynwn import TwoDA
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', action='version', version='0.1')
