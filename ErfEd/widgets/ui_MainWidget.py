@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -87,4 +88,3 @@ class Ui_Form(object):
         self.label_5.setText(_translate("Form", "Type:"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("Form", "Resources"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Form", "Description"))
-

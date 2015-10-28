@@ -14,26 +14,26 @@ args = parser.parse_args()
 
 if __name__ == "__main__":
     resman = ResourceManager.from_module(args.module, False, True, args.nwn)
-    feat   = TwoDA(resman['feat.2da'])
+    feat = TwoDA(resman['feat.2da'])
     res = {}
     for tda in [TwoDA(t) for t in resman.glob('cls_feat_*.2da')]:
         print(tda.co.resref, tda.co.io)
         d = {}
         for i in range(len(tda.rows)):
-            type = tda.get_int(i, 'List')
+            feat_type = tda.get_int(i, 'List')
             ls = ""
-            if type == 0:
+            if feat_type == 0:
                 ls = 'General Feat Only'
-            elif type == 1:
+            elif feat_type == 1:
                 ls = 'General or Bonus Feat'
-            elif type == 2:
+            elif feat_type == 2:
                 ls = 'Bonus Feat Only'
-            elif type == 3:
+            elif feat_type == 3:
                 ls = 'Class Granted Feat'
 
             strref = feat.get_int(tda.get_int(i, 'FeatIndex'), 'FEAT')
             name = resman.tlktable.get(strref)
-            if type == 3:
+            if feat_type == 3:
                 name = "%s (%s)" % (name, tda.get(i, 'GrantedOnLevel'))
 
             if ls in d:
@@ -46,6 +46,7 @@ if __name__ == "__main__":
     for k, v in res.items():
         print(k)
         for ls in sorted(v.keys()):
-            if not len(v[ls]): continue
+            if not len(v[ls]):
+                continue
             print("  * %s:\n    * " % ls, end="")
             print('\n    * '.join(sorted(v[ls])))

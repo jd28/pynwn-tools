@@ -6,18 +6,11 @@ part_to_2da = {
     'belt': 'parts_belt.2da',
     'pelvis': 'parts_pelvis.2da',
     'sho': 'parts_shoulder.2da',
-    'sho': 'parts_shoulder.2da',
-    'bicep': 'parts_bicep.2da',
     'bicep': 'parts_bicep.2da',
     'fore': 'parts_forearm.2da',
-    'fore': 'parts_forearm.2da',
-    'hand': 'parts_hand.2da',
     'hand': 'parts_hand.2da',
     'leg': 'parts_legs.2da',
-    'leg': 'parts_legs.2da',
     'shin': 'parts_shin.2da',
-    'shin': 'parts_shin.2da',
-    'foot': 'parts_foot.2da',
     'foot': 'parts_foot.2da',
 }
 
@@ -59,8 +52,8 @@ def update_mdl(mdl, new_id):
         with open(mdl, 'r') as old_file:
             print("Creating new mdl: %s -> %s" % (mdl, new_name))
             for line in old_file:
-                new_file.write(line.replace(mtype + rl  + str(mid).zfill(3),
-                                            mtype + rl  + str(new_id).zfill(3)))
+                new_file.write(line.replace(mtype + rl + str(mid).zfill(3),
+                                            mtype + rl + str(new_id).zfill(3)))
 
 
 if __name__ == "__main__":
@@ -68,8 +61,9 @@ if __name__ == "__main__":
     twoda_old = {}
     twoda_new = {}
     converted = {}
-    olded     = {}
-    newed     = {}
+    olded = {}
+    newed = {}
+
 
     def set_starts(type, row):
         if type in ['footr', 'footl']:
@@ -95,6 +89,7 @@ if __name__ == "__main__":
             starts['forel'] = row
         else:
             starts[type] = row
+
 
     for dir in args.input:
         twoda_old[dir] = {}

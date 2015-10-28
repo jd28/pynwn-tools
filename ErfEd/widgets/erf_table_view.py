@@ -5,10 +5,11 @@ from PyQt5.QtWidgets import QMessageBox
 from pynwn.resource import Extensions
 import os.path
 
+
 class ErfTableView(QtWidgets.QTableView):
     needNewErf = QtCore.pyqtSignal()
 
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(ErfTableView, self).__init__(parent)
         self.setAcceptDrops(True)
         self.setDragDropMode(QtWidgets.QAbstractItemView.DropOnly)
@@ -58,13 +59,12 @@ class ErfTableView(QtWidgets.QTableView):
                         and self.model().sourceModel().erf.get_content_object(base)):
                         b = QMessageBox.question(self, "Overwrite File?",
                                                  'Resource: "%s" was already found in the list, would you like to replace it?' % base,
-                                                  QMessageBox.Yes | QMessageBox.No | QMessageBox.YesToAll)
+                                                 QMessageBox.Yes | QMessageBox.No | QMessageBox.YesToAll)
                         if b == QMessageBox.No:
                             continue
 
                         yes_to_all = b == QMessageBox.YesToAll
                     l.append(u)
-
 
             if len(l):
                 if self.model() is None:
@@ -76,8 +76,8 @@ class ErfTableView(QtWidgets.QTableView):
 
     def mousePressEvent(self, e):
         if ((e.buttons() & QtCore.Qt.LeftButton) and
-            not (e.modifiers() & QtCore.Qt.ControlModifier) and
-            not (e.modifiers() & QtCore.Qt.ShiftModifier)):
+                not (e.modifiers() & QtCore.Qt.ControlModifier) and
+                not (e.modifiers() & QtCore.Qt.ShiftModifier)):
             self.clearSelection()
         QtWidgets.QTableView.mousePressEvent(self, e)
 

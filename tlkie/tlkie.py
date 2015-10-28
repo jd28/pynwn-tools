@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 
-import argparse, os, sys
+import argparse
+import os
 
 from pynwn.file.tlk import Tlk
-from pynwn.file.tls import TLS
-from pynwn.util.helper import get_encoding
+from pynwn.file.tls import Tls
+
+from pynwn.util import get_encoding
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', action='version', version='0.1')
@@ -14,27 +16,29 @@ parser.add_argument('file', help='TLK or TLS file.', nargs='+')
 
 args = parser.parse_args()
 
+
 def load_by_ext(f, ext):
     if '.tlk' == ext:
         return Tlk(open(f, 'rb'))
     elif '.tls' == ext:
-        return TLS(f)
+        return Tls(f)
     else:
         raise ValueError("Tlkie can only process a TLK or TLS file.")
+
 
 def save_by_ext(main, ext):
     if '.tlk' == ext:
         if isinstance(main, Tlk):
             with open(args.output, 'wb') as f:
                 main.write(f)
-        elif isinstance(main, TLS):
+        elif isinstance(main, Tls):
             with open(args.output, 'wb') as f:
                 main.write_tlk(f, args.language)
     elif '.tls' == ext:
         if isinstance(main, Tlk):
             with open(args.output, 'w', encoding=get_encoding()) as f:
                 main.write_tls(f)
-        elif isinstance(main, TLS):
+        elif isinstance(main, Tls):
             with open(args.output, 'w', encoding=get_encoding()) as f:
                 main.write(f)
 
@@ -46,7 +50,7 @@ if __name__ == "__main__":
     if outext == '.tlk':
         main = Tlk()
     elif outext == '.tls':
-        main = TLS()
+        main = Tls()
     else:
         raise ValueError("Tlkie can only output a TLK or TLS file.")
 

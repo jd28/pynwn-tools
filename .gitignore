@@ -59,7 +59,7 @@ target/
 merged/
 
 # PyCharm
-/*/.idea/
+.idea/
 
 *.mod
 *.BackupMod

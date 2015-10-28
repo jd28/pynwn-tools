@@ -23,26 +23,31 @@ parser.add_argument('files', help='2da file(s).', nargs='+')
 
 args = parser.parse_args()
 
+
 def getScriptPath():
     return os.path.dirname(os.path.realpath(sys.argv[0]))
+
 
 def safe_mkdir(path):
     if not os.path.exists(path):
         os.makedirs(path)
 
+
 def get_2dxs(base):
     matches = []
     for root, dirnames, filenames in os.walk(args.twodx):
-        for filename in fnmatch.filter(filenames, base+'+*.2dx'):
+        for filename in fnmatch.filter(filenames, base + '+*.2dx'):
             base = os.path.basename(filename)
             matches.append(os.path.join(root, filename))
 
     return matches
 
+
 ALL = False
-yes = set(['yes','y', 'ye', ''])
-no = set(['no','n'])
-all = set(['all','al','a'])
+yes = set(['yes', 'y', 'ye', ''])
+no = set(['no', 'n'])
+all = set(['all', 'al', 'a'])
+
 
 def prompt(file, desc):
     global ALL
@@ -62,11 +67,12 @@ def prompt(file, desc):
         else:
             print("Please respond with 'yes' or 'no' or 'all'")
 
+
 if __name__ == "__main__":
     safe_mkdir(args.output)
     tdasource = None
     if args.non_default:
-        tdasource = zipfile.ZipFile(os.path.join(getScriptPath(),'2dasource.zip'))
+        tdasource = zipfile.ZipFile(os.path.join(getScriptPath(), '2dasource.zip'))
 
     files = []
     if os.name == 'nt':

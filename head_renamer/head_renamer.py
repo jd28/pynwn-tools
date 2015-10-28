@@ -60,7 +60,7 @@ def get_next_row(mtype, tda, skip):
     l = TDA_LOOKUP_COLUMN[mtype]
     col = tda.get_column_index(l) - 1
     for i, r in enumerate(tda.rows):
-        if skip and (i >= 50 and i <= 99):
+        if skip and (50 <= i <= 99):
              continue
         test = tda.get_int(i, col)
         if test != i:

@@ -7,7 +7,6 @@ import argparse
 
 from pynwn import ResourceManager
 from pynwn import TwoDA
-from pynwn import Item
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', action='version', version='0.1')
@@ -15,6 +14,7 @@ parser.add_argument('--nwn', help='NWN Path.',
                     default="C:\\GOG Games\\Neverwinter Nights Diamond Edition\\")
 parser.add_argument('module', help='Module.')
 args = parser.parse_args()
+
 
 def dump_items(resman):
     param_table = []
@@ -24,29 +24,32 @@ def dump_items(resman):
     propdef = TwoDA(resman['itempropdef.2da'])
     for i in range(len(propdef.rows)):
         r = propdef.get(i, 'SubTypeResRef')
-        if not len(r): continue
+        if not len(r):
+            continue
         r = r.lower() + '.2da'
         subtypes[i] = TwoDA(resman[r])
 
     tda = TwoDA(resman['iprp_paramtable.2da'])
     for i in range(len(tda.rows)):
-        param_table.append(tda.get(i, 'TableResRef').lower()+'.2da')
+        param_table.append(tda.get(i, 'TableResRef').lower() + '.2da')
 
     param_table = [TwoDA(resman[x]) for x in param_table]
 
     tda = TwoDA(resman['iprp_costtable.2da'])
     for i in range(len(tda.rows)):
-        cost_table.append(tda.get(i, 'Name').lower()+'.2da')
+        cost_table.append(tda.get(i, 'Name').lower() + '.2da')
     cost_table = [TwoDA(resman[x]) for x in cost_table]
 
     for i in sorted(resman.module.glob('*.uti'), key=lambda item: item.base_type):
         try:
             props = i.properties
-            if not len(props): continue
+            if not len(props):
+                continue
 
             print("%s (%s)" % (i.get_name(0), i.resref))
             for p in props:
-                if propdef.get_int(p.type, 'Name') == 0: continue
+                if propdef.get_int(p.type, 'Name') == 0:
+                    continue
                 res = [resman.tlktable.get(propdef.get_int(p.type, 'Name'))]
                 if p.type in subtypes:
                     strref = subtypes[p.type].get_int(p.subtype, 'Name')
@@ -60,10 +63,11 @@ def dump_items(resman):
                     if strref > 0:
                         res.append(resman.tlktable.get(strref))
 
-                print('  '+' '.join(res))
+                print('  ' + ' '.join(res))
         except Exception as e:
             print("   ERROR: '%s' possibly invalid 2da" % e)
 
+
 if __name__ == "__main__":
-    resman = ResourceManager.from_module(args.module, False, True, args.nwn)
-    dump_items(resman)
+    resource_mgr = ResourceManager.from_module(args.module, False, True, args.nwn)
+    dump_items(resource_mgr)

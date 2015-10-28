@@ -3,6 +3,7 @@ from PyQt5 import QtCore, QtWidgets
 from .ui_MainWidget import Ui_Form
 from .erf_table_view import ErfTableView
 
+
 class MainWidget(QtWidgets.QWidget, Ui_Form):
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self, parent)

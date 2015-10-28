@@ -7,18 +7,19 @@ data_files = []
 
 if os.name == 'nt':
     import py2exe
+
     data_files.append(('platforms', platforms))
     setup(name="ErfEd",
           version="0.1",
           description="ERF file format editor.",
           author="jmd",
-          data_files = data_files,
-          windows = [{
+          data_files=data_files,
+          windows=[{
               "script": "ErfEd.py",
-              "icon_resources" : [(1, os.path.join('../external/icons',"nwn1-toolset.ico"))]
+              "icon_resources": [(1, os.path.join('../external/icons', "nwn1-toolset.ico"))]
           }],
           zipfile=None,
-          options={"py2exe":{
+          options={"py2exe": {
               'compressed': 2,
               'optimize': 2,
               'includes': ["sip"],
@@ -30,6 +31,6 @@ elif os.name == 'posix':
           version="0.1",
           description="ERF file format editor.",
           author="jmd",
-          packages = ['widgets'],
-          data_files = data_files,
-          scripts = ['ErfEd.py'])
+          packages=['widgets'],
+          data_files=data_files,
+          scripts=['ErfEd.py'])

@@ -17,6 +17,7 @@ from pynwn.resource import ResTypes, ContentObject
 
 from widgets.MainWidget import MainWidget
 
+
 class ErfReadThread(QtCore.QThread):
     erfLoaded = QtCore.pyqtSignal(Erf)
 
@@ -35,6 +36,7 @@ class ErfReadThread(QtCore.QThread):
 
     def begin(self):
         self.start()
+
 
 class ErfSortFilterProxyModel(QtCore.QSortFilterProxyModel):
     def __init__(self, parent=None):
@@ -59,6 +61,7 @@ class ErfSortFilterProxyModel(QtCore.QSortFilterProxyModel):
                 return False
 
         return True
+
 
 class ErfGridModel(QtCore.QAbstractTableModel):
     columnNames = ['Resource', 'Type', 'Size (bytes)']
@@ -95,7 +98,7 @@ class ErfGridModel(QtCore.QAbstractTableModel):
         if index.isValid():
             return QtCore.Qt.ItemIsDragEnabled | QtCore.Qt.ItemIsDropEnabled | defaultFlags
         else:
-            return QtCore.Qt.ItemIsDropEnabled | defaultFlags;
+            return QtCore.Qt.ItemIsDropEnabled | defaultFlags
 
     def headerData(self, section, orientation, role):
         if orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole:
@@ -118,6 +121,7 @@ class ErfGridModel(QtCore.QAbstractTableModel):
         for f in files:
             self.erf.remove(f)
         self.layoutChanged.emit()
+
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
@@ -202,10 +206,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.recentFiles.insert(0, self.fileName)
         for i, fname in enumerate(self.recentFiles):
-            self.recentFileActs[i].setText("&%d - %s" % (i+1, fname))
+            self.recentFileActs[i].setText("&%d - %s" % (i + 1, fname))
             self.recentFileActs[i].setData(fname)
             self.recentFileActs[i].setVisible(True)
-
 
     def about(self):
         QtWidgets.QMessageBox.about(self, "About Erf",
@@ -213,8 +216,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def createActions(self):
         self.newErfFileAct = QtWidgets.QAction("&New", self,
-                                                shortcut="Ctrl+N",
-                                                triggered=self.newErf)
+                                               shortcut="Ctrl+N",
+                                               triggered=self.newErf)
 
         self.openErfFileAct = QtWidgets.QAction("&Open", self,
                                                 shortcut="Ctrl+O",
@@ -235,14 +238,14 @@ class MainWindow(QtWidgets.QMainWindow):
                                             triggered=QtWidgets.QApplication.instance().aboutQt)
 
         self.exportAct = QtWidgets.QAction("&Export", self,
-                                        shortcut="Ctrl+E",
-                                        triggered=self.export)
+                                           shortcut="Ctrl+E",
+                                           triggered=self.export)
 
         self.exportAllAct = QtWidgets.QAction("Export All", self, triggered=self.exportAll)
 
     def export(self):
         path = QtWidgets.QFileDialog.getExistingDirectory(self, 'Export To...'
-                                                          '.')
+                                                                '.')
         select = self.mainWidget.resourceTable.selectionModel().selectedRows()
         for s in select:
             idx = self.mainWidget.resourceTable.model().index(s.row(), 0)
@@ -255,7 +258,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def exportAll(self):
         path = QtWidgets.QFileDialog.getExistingDirectory(self, 'Export To...'
-                                                          '.')
+                                                                '.')
         for co in self.erf.content:
             co.write_to(os.path.join(path, co.get_filename()))
 
@@ -278,7 +281,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.recentFileActs.append(act)
 
         for i, fname in enumerate(self.recentFiles):
-            self.recentFileActs[i].setText("&%d - %s" % (i+1, fname))
+            self.recentFileActs[i].setText("&%d - %s" % (i + 1, fname))
             self.recentFileActs[i].setData(fname)
             self.recentFileActs[i].setVisible(True)
 
@@ -297,7 +300,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.helpMenu.addAction(self.aboutQtAct)
 
     def onTypeComboChanged(self, idx):
-        if not self.proxy is None:
+        if self.proxy is not None:
             text = self.mainWidget.typeCombo.currentText()
             if text == 'All':
                 self.proxy.setFilter(1, '')
@@ -305,7 +308,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.proxy.setFilter(1, text)
 
     def onFilterChanged(self):
-        if not self.proxy is None:
+        if self.proxy is not None:
             self.proxy.setFilter(0, self.mainWidget.filterEdit.text())
 
     def updateModels(self, erf):
@@ -365,7 +368,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.open(self.fileName)
 
     def save(self):
-        if self.erf is None: return
+        if self.erf is None:
+            return
         if not self.fileName:
             self.saveAs()
         else:
@@ -389,7 +393,6 @@ class MainWindow(QtWidgets.QMainWindow):
             self.recentFiles.append(self.settings.value('file'))
         self.settings.endArray()
 
-
     def writeSettings(self):
         self.settings.beginWriteArray('Recent Files', len(self.recentFiles))
         for i, fname in enumerate(self.recentFiles):
@@ -400,7 +403,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def restoreWindow(self):
         geom = self.settings.value("Window/geometry")
-        if not geom is None:
+        if geom is not None:
             self.restoreGeometry(geom)
 
     def checkSave(self):
@@ -424,9 +427,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    QtCore.QCoreApplication.setOrganizationName("jmd");
-    QtCore.QCoreApplication.setOrganizationDomain("jmdean.me");
-    QtCore.QCoreApplication.setApplicationName("ErfEd");
+    QtCore.QCoreApplication.setOrganizationName("jmd")
+    QtCore.QCoreApplication.setOrganizationDomain("jmdean.me")
+    QtCore.QCoreApplication.setApplicationName("ErfEd")
 
     mainWin = MainWindow()
     mainWin.restoreWindow()
